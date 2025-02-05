@@ -62,32 +62,22 @@ fetch("../jsons/abi.json")
   });
 
 window.addEventListener('load', async () => {
-    // New web3 provider
     if (window.ethereum) {
-        window.web3 = new Web3(ethereum);
+        window.web3 = new Web3('http://localhost:8545'); // Connect to Ganache
         try {
-            // ask user for permission
-            await ethereum.enable();
-            // user approved permission
+            const accounts = await web3.eth.getAccounts();
+            console.log('Connected accounts:', accounts);
         } catch (error) {
-            // user rejected permission
-            console.log('user rejected permission');
+            console.error('Error connecting to Ganache:', error);
         }
+    } else {
+        console.log('Please install MetaMask or use a Web3 browser');
     }
-    // Old web3 provider
-    else if (window.web3) {
-        window.web3 = new Web3(web3.currentProvider);
-        // no need to ask for permission
-    }
-    // No web3 provider
-    else {
-        console.log('No web3 provider detected');
-    }
-  });
+});
   //console.log (window.web3.currentProvider)
 
   // contractAddress and abi are setted after contract deploy
-  var contractAddress = '0xf92837155D77cCCBc600326eE9CBb9007e2160AC';
+  var contractAddress = '0xB27bfEECa6579275eBBE399eA2936802F846aE9C'; // Use one of the Ganache addresses
   var abi =abiStr;// JSON.parse(abiStr);
 //  abi = require("../jsons/abi.json"); 
   //contract instance
